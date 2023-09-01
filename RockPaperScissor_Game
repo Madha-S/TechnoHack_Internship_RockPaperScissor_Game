@@ -1,0 +1,57 @@
+import random
+import tkinter as tk
+from tkinter import messagebox
+
+options = ["rock", "paper", "scissors"]
+emojis = {
+    "rock": "👊",
+    "paper": "✋",
+    "scissors": "✌️"
+}
+
+# Define result_label as a global variable
+result_label = None
+
+def play_game(user_choice):
+    global result_label  # Reference the global variable
+    computer_choice = random.choice(options)
+    result = ""
+
+    if user_choice == computer_choice:
+        result = "It's a draw!"
+    elif (user_choice == "rock" and computer_choice == "scissors") or \
+         (user_choice == "paper" and computer_choice == "rock") or \
+         (user_choice == "scissors" and computer_choice == "paper"):
+        result = "You Win!"
+    else:
+        result = "Computer Wins!"
+
+    result_label.config(text=f"Computer picked {emojis[computer_choice]}  {result}")
+
+def main():
+    global result_label  # Reference the global variable
+    window = tk.Tk()
+    window.title("Rock-Paper-Scissors Game")
+    window.geometry("500x400")  # Set the dimensions of the window
+
+    label = tk.Label(window, text="Select your choice:", font=("Helvetica", 14))
+    label.pack()
+
+    for option in options:
+        button = tk.Button(window, text=emojis[option] + " " + option.capitalize(), 
+                           command=lambda opt=option: play_game(opt),
+                           font=("Helvetica", 12), width=10, height=2,
+                           bg="lightblue", activebackground="lightcyan")
+        button.pack(pady=5)
+
+    result_label = tk.Label(window, text="", font=("Helvetica", 16))
+    result_label.pack(pady=20)
+
+    quit_button = tk.Button(window, text="Quit", command=window.quit, font=("Helvetica", 12),
+                            bg="salmon", activebackground="tomato")
+    quit_button.pack()
+
+    window.mainloop()
+
+if __name__ == "__main__":
+    main()
